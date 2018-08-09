@@ -1,0 +1,48 @@
+<% provide(:title, 'All users') %>
+<h1>All users</h1>
+
+<div class="panel">
+    <div class="row">
+    <div class="col-md-6">
+        <%= form_tag(users_path, method: :get) do %>
+            <div class="input-group">
+                <%= text_field_tag :term, params[:term], class: "form-control", placeholder: "Search", id: "search-txt" %>
+                <span class="input-group-btn">
+                    <%= submit_tag 'Search', name: nil, class: "btn btn-default", id: "search-btn" %>
+                    <%= link_to 'Clear', users_path, class: "btn btn-default" %>
+                </span>
+            </div>
+        <% end %>
+    </div>
+    <div class="col-md-6 text-right">
+        <%= link_to "New User", signup_path, class: "btn btn-primary" %>
+    </div>
+    </div>
+</div>
+
+<ul class="users">
+<li>
+    <div class="col-md-4">Name</div>
+    <div class="col-md-4">Email</div>
+    <div class="col-md-4">Actions</div>
+</li>
+<% @users.each do |user| %>
+    <li>
+        <div class="col-md-4">
+            <%= user.name %>
+        </div>
+        <div class="col-md-4">
+            <%= user.email %>
+        </div>
+        <div class="col-md-4">
+            <%= link_to "edit", edit_user_path(user) %> | 
+            <%= link_to "delete", user, method: :delete, data: { confirm: "You sure?" } %>
+        </div>
+    </li>
+<% end %>
+</ul>
+<p class="text-center">
+    <%= page_entries_info %>
+</p>
+
+<%= will_paginate %>
